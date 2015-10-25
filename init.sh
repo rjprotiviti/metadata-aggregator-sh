@@ -4,6 +4,7 @@ mkdir /etc/chef
 mkdir /etc/chef/src
 mkdir /etc/chef/src/cookbooks
 mkdir /etc/chef/src/cookbooks/metadata-aggregator
+mkdir /etc/chef/src/cookbooks/metadata-aggregator/recipes
 mkdir /etc/chef/src/data_bags
 mkdir /etc/chef/src/roles
 mkdir /etc/chef/src/cookbooks/common
@@ -31,7 +32,7 @@ wget -O tomcat 'https://supermarket.chef.io/cookbooks/tomcat/versions/0.17.0/dow
 tar -xvzf tomcat
 
 #copy metadata-aggreator.rb to working folder
-cp -i /etc/repos/chef/metadata-aggregator-chef/src/cookbooks/metadata-aggregator/default.rb to /etc/chef/src/cookbooks/metadata-aggregator/
+cp -i /etc/repos/chef/metadata-aggregator-chef/src/cookbooks/metadata-aggregator/recipes/default.rb to /etc/chef/src/cookbooks/metadata-aggregator/recipes/
 
 #replace <token> with PAT value (parameter 1) in the /etc/chef/src/cookbooks/metadata-aggregator.rb file
 find /etc/chef/src/cookbooks -name default.rb -exec sed -i "s/<token>/$1/g" {} \;
