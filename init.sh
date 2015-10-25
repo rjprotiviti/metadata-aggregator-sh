@@ -34,7 +34,7 @@ tar -xvzf tomcat
 cp -i /etc/repos/chef/metadata-aggregator-chef/src/cookbooks/metadata-aggregator/default.rb to /etc/chef/src/cookbooks/metadata-aggregator/
 
 #replace <token> with PAT value (parameter 1) in the /etc/chef/src/cookbooks/metadata-aggregator.rb file
-find /etc/chef/src/cookbooks -name metadata-aggregator.rb -exec sed -i "s/<token>/$1/g" {} \;
+find /etc/chef/src/cookbooks -name default.rb -exec sed -i "s/<token>/$1/g" {} \;
 
 
 #run recipes
