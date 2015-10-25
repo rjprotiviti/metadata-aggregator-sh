@@ -9,18 +9,35 @@ mkdir /etc/chef/src/cookbooks/common
 mkdir /etc/chef/src/cookbooks/common/recipes
 
 #get recipes
-git clone "https://metadata-aggregator-chef:$1@github.com/GSA/metadata-aggregator-chef.git"
+cd /etc/repos/chef/
+git init
+git clone "https://metadata-aggregator-chef:$1@github.com/rjprotiviti/metadata-aggregator-chef.git"
+cd /etc/repos/chef/metadata-aggregator-chef
+
+
 
 #copy recipes
-cp -i /etc/repos/chef/solo.rb /etc/chef/
-cp -i /etc/repos/chef/src/cookbooks/common/recipes/default.rb /etc/chef/src/cookbooks/common/recipes/
-cp -i /etc/repos/chef/src/cookbooks/recipes4recipes to /etc/chef/src/cookbooks/
+cp -i /etc/repos/chef/metadata-aggregator-chef/solo.rb /etc/chef/
+cp -i /etc/repos/chef/metadata-aggregator-chef/src/cookbooks/common/recipes/default.rb /etc/chef/src/cookbooks/common/recipes/
+
+
+
+#get jdk and tomcat recipes
+cd /etc/chef/src/cookbooks
+wget -O java 'https://supermarket.chef.io/cookbooks/java/download' 
+tar -xvzf java
+wget -O tomcat 'https://supermarket.chef.io/cookbooks/tomcat/versions/0.17.0/download' 
+tar -xvzf tomcat
+
+#copy metadata-aggreator.rb to working folder
+cp -i /etc/repos/chef/metadata-aggregator-chef/src/cookbooks/metadata-aggregator.rb to /etc/chef/src/cookbooks/
 
 #replace <token> with PAT value (parameter 1) in the /etc/chef/src/cookbooks/metadata-aggregator.rb file
 find /etc -name /etc/chef/src/cookbooks/metadata-aggregator.rb -exec sed -i "s/<token>/$1/g" {} \;
 
+
+#run recipes
 chef-solo -o 'recipe[common]'
-chef-solo -o 'recipe[recipes4recipes]'  
 chef-solo -o 'recipe[java]'
 chef-solo -o 'recipe[tomcat]'
 chef-solo -o 'recipe[metadata-aggregator]'
